@@ -19,3 +19,8 @@ type GetReactedUserOfPostReq struct {
 	LastID int64 `json:"last_id"`
 	Liked  bool  `json:"liked"`
 }
+
+type PaginatedReactedUSsers struct {
+	Users  []*ReactedUserInPost
+	LastID int64
+}

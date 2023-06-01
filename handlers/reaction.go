@@ -48,7 +48,6 @@ func (h *ReactionHandler) createReaction(w http.ResponseWriter, r *http.Request)
 	Created(w, id)
 }
 
-
 func (h *ReactionHandler) getReactedUserOfPost(w http.ResponseWriter, r *http.Request) {
 	var payload dtos.GetReactedUserOfPostReq
 	if err := json.NewDecoder(r.Body).Decode(&payload); err != nil {
@@ -56,12 +55,20 @@ func (h *ReactionHandler) getReactedUserOfPost(w http.ResponseWriter, r *http.Re
 		return
 	}
 
-	users, err := h.reactionRepository.GetPostReactedUser(payload.PostID, payload.Limt,payload.LastID, payload.Liked)
+	users, err := h.reactionRepository.GetPostReactedUser(payload.PostID, payload.Limt, payload.LastID, payload.Liked)
 	if err != nil {
 		InternalServerError(w, err)
 		return
 	}
 
+	var lastID int64
+	if len(users) > 0 {
+		lastID = int64(users[len(users)-1].UserID)
+	}
+
 	log.Println("users fetched", "users", users)
-	Created(w, users)
+	Created(w, &dtos.PaginatedReactedUSsers{
+		Users:  users,
+		LastID: lastID,
+	})
 }

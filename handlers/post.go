@@ -72,8 +72,13 @@ func (h *PostHandlers) getPosts(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	var lastID int64
+	if len(posts) > 0 {
+		lastID = int64(posts[len(posts)-1].ID)
+	}
+
 	Ok(w, &dtos.PaginatedPostResposnse{
 		Posts:  posts,
-		LastID: int64(posts[len(posts)-1].ID),
+		LastID: lastID,
 	})
 }

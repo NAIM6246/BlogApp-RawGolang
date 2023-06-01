@@ -23,7 +23,7 @@ type DB struct {
 
 func connectDB(config *configs.DBConfig) error {
 	// need to configure this
-	dsn := fmt.Sprintf("root:@tcp(127.0.0.1:3306)/temp")
+	dsn := fmt.Sprintf("root:@tcp(127.0.0.1:3306)/test")
 	conn, err := sql.Open("mysql", dsn)
 	if err != nil {
 		log.Fatal("Database connection failed")
