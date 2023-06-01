@@ -27,7 +27,7 @@ func (h *UserHandler) Handle(router chi.Router) {
 }
 
 func (h *UserHandler) createUser(w http.ResponseWriter, r *http.Request) {
-	var payload *dtos.UserCreateDto
+	var payload dtos.UserCreateDto
 	if err := json.NewDecoder(r.Body).Decode(&payload); err != nil {
 		BadRequest(w, err)
 		return

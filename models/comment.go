@@ -1,8 +1,8 @@
 package models
 
 type Comment struct {
-	ID          int
+	ID          int64
 	Description string
-	AuthorID    int
-	PostID      int
+	AuthorID    int64
+	PostID      int64
 }

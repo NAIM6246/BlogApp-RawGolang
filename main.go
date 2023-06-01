@@ -42,10 +42,14 @@ func main() {
 
 	userHandler := handlers.NewUserHandler()
 	postHandler := handlers.NewPostHandler()
+	commentHandler := handlers.NewCommentHandler()
+	reactionHandler := handlers.NewReactionHandler()
 
 	router.Route("/api", func(r chi.Router) {
 		r.Route("/users", userHandler.Handle)
 		r.Route("/posts", postHandler.Handle)
+		r.Route("/comments", commentHandler.Handle)
+		r.Route("/reactions", reactionHandler.Handle)
 	})
 
 	// File server

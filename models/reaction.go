@@ -2,8 +2,8 @@ package models
 
 type Reaction struct {
 	ID        int
-	PostID    int
-	UserID    int
-	Is_Like   bool
-	Is_Unlike bool
+	PostID    int64
+	UserID    int64
+	Is_Like   *bool
+	Is_Unlike *bool
 }
