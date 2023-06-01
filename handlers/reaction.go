@@ -13,11 +13,13 @@ import (
 
 type ReactionHandler struct {
 	reactionRepository *repositories.ReactionRepository
+	postRepository     *repositories.PostRepository
 }
 
 func NewReactionHandler() IHandler {
 	return &ReactionHandler{
 		reactionRepository: repositories.NewReactionRepository(),
+		postRepository:     repositories.NewPostRepository(),
 	}
 }
 
@@ -39,6 +41,11 @@ func (h *ReactionHandler) createReaction(w http.ResponseWriter, r *http.Request)
 		Is_Like:   payload.Is_Like,
 		Is_Unlike: payload.Is_Unlike,
 	})
+	if err != nil {
+		InternalServerError(w, err)
+		return
+	}
+	err = h.postRepository.UpdatePostCount(payload.PostID, *payload.Is_Like, false)
 	if err != nil {
 		InternalServerError(w, err)
 		return

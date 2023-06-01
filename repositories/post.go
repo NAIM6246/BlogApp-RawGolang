@@ -48,3 +48,18 @@ func (repo *PostRepository) CreatePost(data *models.Post) (int64, error) {
 	}
 	return res.LastInsertId()
 }
+
+func (repo *PostRepository) UpdatePostCount(postID int64, liked, is_comment bool) error {
+	query := `UPDATE POSTS SET `
+	if is_comment {
+		query += `COMMENT_COUNT = COMMENT_COUNT + 1 `
+	} else if liked {
+		query += `LIKE_COUNT = LIKE_COUNT+ 1 `
+	} else {
+		query += `UNLIKE_COUNT = UNLIKE_COUNT+ 1 `
+	}
+	query += `WHERE ID = ?`
+
+	_, err := repo.db.Exec(query, postID)
+	return err
+}

@@ -13,11 +13,13 @@ import (
 
 type CommentHandler struct {
 	commentRepository *repositories.CommentRepository
+	postRepository    *repositories.PostRepository
 }
 
 func NewCommentHandler() IHandler {
 	return &CommentHandler{
 		commentRepository: repositories.NewCommentRepository(),
+		postRepository:    repositories.NewPostRepository(),
 	}
 }
 
@@ -38,6 +40,12 @@ func (h *CommentHandler) createComment(w http.ResponseWriter, r *http.Request) {
 		PostID:      payload.PostID,
 		AuthorID:    payload.AuthorID,
 	})
+	if err != nil {
+		InternalServerError(w, err)
+		return
+	}
+
+	err = h.postRepository.UpdatePostCount(payload.PostID, false, true)
 	if err != nil {
 		InternalServerError(w, err)
 		return
