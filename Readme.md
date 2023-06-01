@@ -79,3 +79,25 @@ ex-2: unliked users
     "last_id": 0,
     "liked": false
 }
+
+
+## Create comment
+### Method: POST
+### Endpoint: localhost:8005/api/comments/
+### Req body: 
+{
+    "description": "demo comment 2",
+    "post_id": 1,
+    "author_id": 3
+}
+
+
+## Get Post Comments
+### Method: GET
+### Endpoint: localhost:8005/api/comments/post-comments
+### Req body: 
+{
+    "post_id": 1,
+    "lastID": 0,
+    "limit" : 5
+}
